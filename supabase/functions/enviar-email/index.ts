@@ -1,13 +1,23 @@
-// Función de Supabase (Edge Function) que envía los emails del concurso con Resend.
+// Función de Supabase (Edge Function) que envía los emails del concurso.
 //
 // Dos usos:
 //   { tipo: "confirmacion", id }                       → la llama la web al registrar un plato
 //   { tipo: "personalizado", ids, asunto, cuerpo }     → la llama el panel; solo organizadores
 //
-// Secretos que hay que definir en Supabase (Edge Functions → Secrets):
-//   RESEND_API_KEY   clave de Resend
-//   EMAIL_FROM       remitente, p. ej.  Concurso de Tapas UFV <concurso@tudominio.com>
+// Envía por una de estas dos vías, según los secretos definidos en Supabase
+// (Edge Functions → Secrets):
+//
+//   A) Cuenta de Gmail, gratis y sin dominio (ver apps-script/Codigo.gs):
+//        CORREO_URL     dirección de la aplicación web de Apps Script
+//        CORREO_CLAVE   la misma clave guardada en el script como CLAVE
+//
+//   B) Resend, con dominio propio:
+//        RESEND_API_KEY clave de Resend
+//        EMAIL_FROM     remitente, p. ej.  Concurso de Tapas UFV <concurso@tudominio.com>
+//
 // SUPABASE_URL, SUPABASE_ANON_KEY y SUPABASE_SERVICE_ROLE_KEY los pone Supabase.
+// Con las claves nuevas de Supabase (sb_publishable_…) hay que desactivar
+// "Verify JWT" en esta función: los permisos se comprueban aquí dentro.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 
@@ -31,7 +41,23 @@ const plantilla = (texto: string) => `<!doctype html><html lang="es"><body style
 <p style="font-size:12px;color:#8791a3;margin:20px 0 0">Concurso de Tapas UFV · Investing UFV × 80 Grados</p>
 </td></tr></table></body></html>`;
 
+const porGmail = () => !!(Deno.env.get("CORREO_URL") && Deno.env.get("CORREO_CLAVE"));
+const porResend = () => !!(Deno.env.get("RESEND_API_KEY") && Deno.env.get("EMAIL_FROM"));
+
 async function enviar(to: string, subject: string, texto: string) {
+  if (porGmail()) {
+    try {
+      const r = await fetch(Deno.env.get("CORREO_URL")!, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ clave: Deno.env.get("CORREO_CLAVE"), para: to, asunto: subject, texto, html: plantilla(texto) }),
+      });
+      const res = await r.json();
+      return res.ok ? { ok: true, detalle: "" } : { ok: false, detalle: String(res.error ?? "error").slice(0, 300) };
+    } catch (e) {
+      return { ok: false, detalle: String(e).slice(0, 300) };
+    }
+  }
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${Deno.env.get("RESEND_API_KEY")}`, "Content-Type": "application/json" },
@@ -45,7 +71,7 @@ const rellenar = (t: string, c: { nombre: string; plato: string }) =>
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
-  if (!Deno.env.get("RESEND_API_KEY") || !Deno.env.get("EMAIL_FROM")) return json({ error: "EMAIL_SIN_CONFIGURAR" }, 503);
+  if (!porGmail() && !porResend()) return json({ error: "EMAIL_SIN_CONFIGURAR" }, 503);
 
   let body: { tipo?: string; id?: string; ids?: string[]; asunto?: string; cuerpo?: string; etiqueta?: string };
   try { body = await req.json(); } catch { return json({ error: "PETICION_INVALIDA" }, 400); }
@@ -92,7 +118,8 @@ Deno.serve(async (req) => {
       const r = await enviar(c.email, a, rellenar(cuerpo, c));
       await registrar(c.id, body.etiqueta === "finalista" ? "finalista" : "personalizado", c.email, a, r);
       r.ok ? enviados++ : errores++;
-      await new Promise((ok) => setTimeout(ok, 600)); // Resend limita los envíos por segundo
+      if (r.detalle === "LIMITE_DIARIO") { errores += (lista?.length ?? 0) - enviados - errores; break; } // Gmail: 100 al día
+      await new Promise((ok) => setTimeout(ok, 600)); // los servicios limitan los envíos por segundo
     }
     return json({ enviados, errores });
   }

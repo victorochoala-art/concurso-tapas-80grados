@@ -10,6 +10,7 @@ Web estática: no hay nada que compilar.
 | `config.js` | Conexión con la base de datos |
 | `supabase/schema.sql` | Tablas, permisos y almacén de archivos |
 | `supabase/functions/enviar-email/` | Envío de emails |
+| `apps-script/Codigo.gs` | Programa que envía los correos desde una cuenta de Gmail |
 | `dev-server.mjs` | Servidor local: `node dev-server.mjs` → http://localhost:4173 |
 
 Mientras `config.js` esté vacío, todo funciona en **modo demostración**: el formulario no guarda nada y el panel enseña datos de ejemplo.
@@ -29,9 +30,16 @@ Desde ese momento el formulario guarda candidaturas y `admin.html` pide email y 
 
 ## Activar los emails
 
-1. Crea una cuenta en [resend.com](https://resend.com) y verifica el dominio desde el que se enviará.
-2. En Supabase, **Edge Functions**: crea la función `enviar-email` con el contenido de `supabase/functions/enviar-email/index.ts`.
-3. En **Edge Functions → Secrets** añade `RESEND_API_KEY` y `EMAIL_FROM` (p. ej. `Concurso de Tapas UFV <concurso@tudominio.com>`).
+Sin dominio propio y sin coste, desde una cuenta de Gmail (límite de Google: 100 destinatarios al día):
+
+1. Con la cuenta de Gmail que enviará los correos, crea un proyecto en [script.google.com](https://script.google.com) y pega `apps-script/Codigo.gs`.
+2. En **Configuración del proyecto → Propiedades de la secuencia de comandos** define `CLAVE` (una clave larga y secreta) y, si quieres, `RESPONDER_A` (la dirección a la que llegarán las respuestas).
+3. Ejecuta una vez la función `autorizar` y acepta el permiso de Google.
+4. **Implementar → Nueva implementación → Aplicación web**, ejecutar como *Yo*, acceso *Cualquier usuario*. Copia la dirección que te da.
+5. En Supabase, **Edge Functions**: crea la función `enviar-email` con el contenido de `supabase/functions/enviar-email/index.ts` y desactiva **Verify JWT**.
+6. En **Edge Functions → Secrets** añade `CORREO_URL` (la dirección del paso 4) y `CORREO_CLAVE` (la misma clave del paso 2).
+
+Con dominio propio se puede usar Resend en su lugar: secretos `RESEND_API_KEY` y `EMAIL_FROM`.
 
 Sin este paso las candidaturas se guardan igual; solo falta el email.
 
