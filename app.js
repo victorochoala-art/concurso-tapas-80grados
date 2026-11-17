@@ -10,11 +10,11 @@
     ? window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, { auth: { persistSession: false } })
     : null;
   const BUCKET = cfg.bucket || 'candidaturas';
-  $('#demoNote').hidden = !DEMO;
 
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('#demoNote').hidden = !DEMO;
 
   /* ==========================================================
      ESCENA FLOTANTE
