@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Concurso de Tapas UFV × 80 Grados</title>
+  <meta name="description" content="Presenta tu tapa del 1 de diciembre al 15 de enero. 80 plazas, 8 finalistas y 1 plato en la carta de 80 Grados.">
+  <meta name="theme-color" content="#ffffff">
+  <!-- Quitar esta línea al lanzar el concurso para que los buscadores puedan mostrar la página -->
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23EF544E'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Degradados, recortes y texturas de los objetos de la escena (los rellena art.js) -->
+<svg class="defs" id="sceneDefs" width="0" height="0" aria-hidden="true" focusable="false"></svg>
+
+<!-- ============ LANDING ============ -->
+<main id="landing">
+
+  <section class="hero" id="hero">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="plate" aria-hidden="true"></div>
+    <div class="scene" id="scene" aria-hidden="true"></div>
+
+    <header class="brand">
+      <span class="brand__investing" role="img" aria-label="Investing UFV, Sociedad de Alumnos"></span>
+      <span class="brand__x" aria-hidden="true">×</span>
+      <img class="brand__80" src="assets/logo-80.png" alt="80 Grados" width="300" height="154">
+    </header>
+
+    <div class="hero__content">
+      <p class="eyebrow">Concurso de tapas UFV</p>
+      <h1>De tu cocina<br>a la carta<span class="dot">.</span></h1>
+      <p class="lead">Presenta tu tapa. La ganadora, a la carta de 80&nbsp;Grados.</p>
+      <a class="btn btn--primary btn--xl" id="heroCta" href="#registro">
+        Registrar mi plato
+        <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <p class="meta"><span class="deg" aria-hidden="true"></span>1 dic – 15 ene<span class="sep" aria-hidden="true">·</span><span id="plazasText">80 plazas</span></p>
+    </div>
+  </section>
+
+  <section class="count" aria-label="El concurso en cifras">
+    <div class="count__grid">
+      <div class="count__item"><span class="count__n" data-count="80">80</span><span class="count__l">platos</span></div>
+      <div class="count__item"><span class="count__n" data-count="8">8</span><span class="count__l">finalistas</span></div>
+      <div class="count__item count__item--win"><span class="count__n" data-count="1">1</span><span class="count__l">en la carta</span></div>
+    </div>
+  </section>
+
+  <section class="steps" aria-labelledby="stepsTitle">
+    <p class="eyebrow" id="stepsTitle">Cómo funciona</p>
+    <ol class="steps__list">
+      <li>
+        <span class="steps__temp">20°</span>
+        <div><h3>Presenta tu receta</h3><p>Descripción, fotos y un vídeo corto.</p></div>
+      </li>
+      <li>
+        <span class="steps__temp">40°</span>
+        <div><h3>Selección</h3><p>El jurado de 80 Grados elige 8 platos.</p></div>
+      </li>
+      <li>
+        <span class="steps__temp">60°</span>
+        <div><h3>Final en directo</h3><p>Los 8 finalistas cocinan ante el jurado.</p></div>
+      </li>
+      <li>
+        <span class="steps__temp">80°</span>
+        <div><h3>En la carta</h3><p>El plato ganador se desarrolla en el I+D de 80 Grados.</p></div>
+      </li>
+    </ol>
+    <ul class="chips">
+      <li>1 dic – 15 ene</li>
+      <li>0,10 ECTS para todos los participantes</li>
+    </ul>
+  </section>
+
+  <section class="close">
+    <div class="close__card" id="closeCard">
+      <h2>80 plazas.<br>Una es tuya<span class="dot">.</span></h2>
+      <a class="btn btn--primary btn--xl" href="#registro">
+        Registrar mi plato
+        <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>Investing UFV · Sociedad de Alumnos <span aria-hidden="true">×</span> 80 Grados</p>
+    <p class="foot__links"><a href="#" data-pending>Bases del concurso</a><a href="#" data-pending>Privacidad</a></p>
+  </footer>
+
+  <a class="btn btn--primary sticky-cta" id="stickyCta" href="#registro">Registrar mi plato</a>
+</main>
+
+<!-- ============ FORMULARIO ============ -->
+<section id="registro" class="form-view" hidden>
+  <header class="fbar">
+    <a class="fbar__back" href="#" aria-label="Volver al inicio">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </a>
+    <div class="thermo" id="thermo" role="progressbar" aria-label="Progreso del registro" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
+      <div class="thermo__track"><div class="thermo__fill" id="thermoFill"></div></div>
+      <span class="thermo__label" id="thermoLabel">20°</span>
+    </div>
+  </header>
+
+  <form id="form" novalidate>
+    <p class="demo-note" id="demoNote" hidden>Versión de demostración. El envío de platos todavía no está activo: nada de lo que escribas se guardará.</p>
+
+    <div class="step" data-step="1">
+      <p class="eyebrow">Paso 1 de 4</p>
+      <h2 class="step__title" tabindex="-1">Tú</h2>
+      <p class="step__hint">Para saber quién cocina.</p>
+
+      <div class="row2">
+        <div class="field"><label for="nombre">Nombre</label><input id="nombre" name="nombre" autocomplete="given-name" required></div>
+        <div class="field"><label for="apellidos">Apellidos</label><input id="apellidos" name="apellidos" autocomplete="family-name" required></div>
+      </div>
+      <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@email.com" required></div>
+      <div class="field"><label for="telefono">Teléfono</label><input id="telefono" name="telefono" type="tel" inputmode="tel" autocomplete="tel" required></div>
+      <div class="row2 row2--wide">
+        <div class="field"><label for="grado">Grado</label><input id="grado" name="grado" placeholder="Ej. ADE" required></div>
+        <div class="field"><label for="curso">Curso</label>
+          <select id="curso" name="curso" required>
+            <option value="">Elige</option><option>1.º</option><option>2.º</option><option>3.º</option><option>4.º</option><option>5.º</option><option>6.º</option><option>Máster</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-step="2" hidden>
+      <p class="eyebrow">Paso 2 de 4</p>
+      <h2 class="step__title" tabindex="-1">Tu plato</h2>
+      <p class="step__hint">Formato tapa. Cuéntalo en pocas palabras.</p>
+
+      <div class="field"><label for="plato">Nombre del plato</label><input id="plato" name="plato" maxlength="60" required></div>
+      <div class="field">
+        <label for="resumen">En una frase</label>
+        <input id="resumen" name="resumen" maxlength="140" data-counter required>
+      </div>
+      <div class="field">
+        <label for="concepto">La idea detrás del plato</label>
+        <textarea id="concepto" name="concepto" rows="5" maxlength="800" placeholder="¿De dónde sale? ¿Qué lo hace distinto?" required></textarea>
+      </div>
+    </div>
+
+    <div class="step" data-step="3" hidden>
+      <p class="eyebrow">Paso 3 de 4</p>
+      <h2 class="step__title" tabindex="-1">La receta</h2>
+      <p class="step__hint">Ingredientes para una tapa y cómo se hace.</p>
+
+      <div class="field field--group" id="ingField">
+        <span class="label">Ingredientes y cantidades</span>
+        <div id="ingList"></div>
+        <button type="button" class="btn btn--ghost btn--sm" id="ingAdd">+ Añadir ingrediente</button>
+      </div>
+
+      <div class="field">
+        <label for="elaboracion">Elaboración</label>
+        <textarea id="elaboracion" name="elaboracion" rows="6" maxlength="2000" placeholder="Los pasos principales, en orden." required></textarea>
+      </div>
+
+      <div class="field field--group">
+        <span class="label">Alérgenos <span class="opt">· marca los que lleve</span></span>
+        <div class="chipset" id="alergenos"></div>
+      </div>
+    </div>
+
+    <div class="step" data-step="4" hidden>
+      <p class="eyebrow">Paso 4 de 4</p>
+      <h2 class="step__title" tabindex="-1">Emplátalo</h2>
+      <p class="step__hint">Una buena foto vale más que la receta.</p>
+
+      <div class="field field--group" id="fotoField">
+        <label class="photo-plate" id="photoPlate">
+          <input type="file" id="foto" name="foto" accept="image/*" class="sr-only">
+          <img id="fotoPreview" alt="" hidden>
+          <span class="photo-plate__hint">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+            <strong>Emplata aquí tu foto</strong>
+            <small>Foto principal</small>
+          </span>
+          <span class="photo-plate__change">Cambiar</span>
+        </label>
+      </div>
+
+      <div class="field field--group">
+        <span class="label">Más fotos <span class="opt">· opcional, hasta 4</span></span>
+        <div class="thumbs" id="thumbs">
+          <label class="thumb thumb--add" aria-label="Añadir más fotos">
+            <input type="file" id="fotos" name="fotos" accept="image/*" multiple class="sr-only">
+            <span aria-hidden="true">+</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field field--group" id="videoField">
+        <span class="label">Vídeo <span class="opt">· opcional, máx. 60 s</span></span>
+        <label class="btn btn--ghost btn--block">
+          <input type="file" id="video" name="video" accept="video/*" class="sr-only">
+          <span id="videoLabel">Añadir vídeo</span>
+        </label>
+      </div>
+
+      <div class="field field--group" id="legalField">
+        <label class="check"><input type="checkbox" id="bases" name="bases"><span>He leído y acepto las <a href="#" data-pending>bases del concurso</a>.</span></label>
+        <label class="check"><input type="checkbox" id="privacidad" name="privacidad"><span>Acepto la <a href="#" data-pending>política de privacidad</a>.</span></label>
+      </div>
+      <p class="form-error" id="submitError" role="alert" hidden></p>
+    </div>
+
+    <div class="step done" data-step="5" hidden>
+      <div class="done__seal" aria-hidden="true">80°</div>
+      <h2 class="step__title" id="doneTitle" tabindex="-1">Tu plato está<br>en su punto<span class="dot">.</span></h2>
+      <p class="step__hint" id="doneText">Hemos recibido tu candidatura. Te escribiremos al email que nos has dejado.</p>
+      <p class="done__demo" id="doneDemo" hidden>Versión de demostración: no se ha enviado ni guardado ningún dato.</p>
+      <a class="btn btn--ghost" href="#">Volver al inicio</a>
+    </div>
+
+    <div class="fnav" id="fnav">
+      <div class="fnav__in">
+        <button type="button" class="fnav__back" id="prevBtn" aria-label="Paso anterior">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        </button>
+        <button type="submit" class="btn btn--primary btn--grow" id="nextBtn">Continuar</button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="art.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
