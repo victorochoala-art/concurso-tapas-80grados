@@ -6,6 +6,7 @@ Web estática: no hay nada que compilar.
 |---|---|
 | `index.html`, `styles.css`, `app.js`, `art.js` | Landing y formulario |
 | `admin.html`, `admin.css`, `admin.js` | Panel de organización |
+| `bases.html`, `privacidad.html`, `legal.css` | Bases del concurso y política de privacidad (borradores: lo resaltado en amarillo está por confirmar) |
 | `config.js` | Conexión con la base de datos |
 | `supabase/schema.sql` | Tablas, permisos y almacén de archivos |
 | `supabase/functions/enviar-email/` | Envío de emails |
@@ -39,4 +40,4 @@ Sin este paso las candidaturas se guardan igual; solo falta el email.
 - Borra las candidaturas de prueba: `delete from public.candidaturas;` y vacía el almacén `candidaturas` en **Storage**.
 - Fechas y cupo están en la tabla `ajustes` (`abre`, `cierra`, `max_plazas`, `max_finalistas`).
 - El plan gratuito de Supabase limita cada archivo a 50 MB. Para vídeos mayores hay que pasar a un plan de pago y subir `file_size_limit` del almacén y `maxVideoMB` de `config.js`.
-- Enlaza las bases y la política de privacidad (ahora apuntan a `#`).
+- Completa los datos resaltados en amarillo de `bases.html` y `privacidad.html` y quita el aviso de borrador.
